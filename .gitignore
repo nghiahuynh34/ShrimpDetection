@@ -6,3 +6,6 @@ venv/
 Data/
 runs/
 runs2/
+static/yolov8/
+static/videoOut/
+static/video/
