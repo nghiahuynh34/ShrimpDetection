@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['UPLOAD_FOLDER'] = "static"
-model = my_YoloV8.YOLOv8_ObjectCounter()
+model = my_YoloV8.YOLOv8_ObjectCounter(model_file="best.pt")
 
 # Hàm xử lý request
 @app.route("/", methods=['GET', 'POST'])
@@ -53,13 +53,14 @@ def home_page():
                     else:
                         return render_template('index.html', msg='Không nhận diện được vật thể')
                 else:
-                    totalCount,dictObject,save_file = model.predict_video(video_path=path_to_save,
-                                                  save_dir =app.config['UPLOAD_FOLDER']+"/video/",
-                                                  save_format = "avi",
-                                                  display = 'custom',
-                                                  colors = colors)
-                    print(totalCount,dictObject,save_file)
-                    video = model.convert_video(save_file, app.config['UPLOAD_FOLDER']+"/videoOut/")
+                    totalCount, dictObject, save_file = model.predict_video(video_path=path_to_save,
+                                                                            save_dir=app.config[
+                                                                                         'UPLOAD_FOLDER'] + "/video/",
+                                                                            save_format="avi",
+                                                                            display='custom',
+                                                                            colors=colors)
+                    print(totalCount, dictObject, save_file)
+                    video = model.convert_video(save_file, app.config['UPLOAD_FOLDER'] + "/videoOut/")
                     # print(video)
                     if totalCount > 0:
                         # Trả về kết quả

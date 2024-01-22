@@ -125,10 +125,10 @@
                 Các định dạng được hỗ trợ: PNG, JPG và JPEG.
         </div>
         <form action="/" method="POST" enctype="multipart/form-data" id='form'>
-            <input type="file" name="file" id="fileinput" style="display: none;" accept="image/*,.mp4, .avi, .mkv, .mov">
+            <input type="file" name="file" id="fileinput" style="display: none;" accept="image/*,.mp4, .avi, .mkv, .mov" >
         </form>
     </div>
-
+</div>
     <div class='result_part'>
         {% if msg %}
         <div class='result_title'><b>Kết quả nhận diện</b></div>
@@ -169,6 +169,8 @@
         $('#form').submit();
         $('#upload_hint').text('Đang tải file ' + $('#fileinput')[0].files[0].name + ' lên server...');
     });
+
+</script>
 
 
 </script>

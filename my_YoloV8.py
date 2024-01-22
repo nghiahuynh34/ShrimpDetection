@@ -167,7 +167,7 @@ class YOLOv8_ObjectDetector:
 
             # Calculate font scale based on object size
             font = cv2.FONT_HERSHEY_COMPLEX
-            fontScale = (((x2 - x1) / img.shape[0]) + ((y2 - y1) / img.shape[1])) / 2 * 2.5
+            fontScale = (((x2 - x1) / img.shape[0]) + ((y2 - y1) / img.shape[1])) / 2 * 3.5
             fontThickness = 1
             textSize, baseline = cv2.getTextSize(textString, font, fontScale, fontThickness)
 
@@ -175,7 +175,7 @@ class YOLOv8_ObjectDetector:
             img = cv2.rectangle(img, (x1, y1), (x2, y2), colors[class_id], bbx_thickness)
             center_coordinates = ((x1 + x2) // 2, (y1 + y2) // 2)
 
-            img = cv2.circle(img, center_coordinates, 5, (0, 0, 255), -1)
+            img = cv2.circle(img, center_coordinates, 4, (0, 0, 255), -1)
 
             # If there are no details to show on the image
             if textString != "":
@@ -346,22 +346,11 @@ class YOLOv8_ObjectCounter(YOLOv8_ObjectDetector):
             fps = 1 / (time.time() - beg)
 
             for box in results.boxes:
-                score = box.conf.item() * 100
+                # score = box.conf.item() * 100
                 class_id = int(box.cls.item())
                 x1, y1, x2, y2 = np.squeeze(box.xyxy.numpy()).astype(int)
-                name = results.names[class_id]
-                # print(name)
-                # detection_count = box.shape[0]
-                # for i in range(detection_count):
-                #     cls = int(box.cls[i].item())
-                #
-                #     name = results.names[cls]
-                #     print(name)
-
-                # print(detection_count)
                 currentArray = np.array([x1, y1, x2, y2,class_id])
                 detections = np.vstack((detections, currentArray))
-                # print(detections)
 
             # Update object tracker
             resultsTracker = tracker.update(detections)
@@ -372,12 +361,6 @@ class YOLOv8_ObjectCounter(YOLOv8_ObjectDetector):
                 # Get the tracker results
                 x1, y1, x2, y2,cl_id, id = result
                 x1, y1, x2, y2, id = int(x1), int(y1), int(x2), int(y2), int(id)
-                # print(result)
-                # Get the class name for the current object ID
-                # class_ids = int(detections[id, 4])  # Assuming the class information is in the 5th column of detections
-                # class_name = results.names[class_ids]
-                # print(class_name)
-                # Display current objects IDs
                 w, h = x2 - x1, y2 - y1
                 cx, cy = x1 + w // 2, y1 + h // 2
                 id_txt = f"ID: {str(id)}"
